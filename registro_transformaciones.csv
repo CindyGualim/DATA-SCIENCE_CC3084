@@ -1,0 +1,10 @@
+﻿Variable,Problema detectado,Transformación,Registros afectados,Justificación
+Todas las columnas,Nombres de variables poco descriptivos y en mayúsculas.,Renombramiento mediante el diccionario COLUMN_RENAME a nombres descriptivos en snake_case.,17,"Mejora la legibilidad, facilita la programación y estandariza los nombres de las variables."
+Todas las columnas,Nombres de variables poco descriptivos y en mayúsculas.,Renombramiento mediante el diccionario COLUMN_RENAME a nombres descriptivos en snake_case.,0,"Mejora la legibilidad, facilita la programación y estandariza los nombres de las variables."
+Todas las variables,Filas completamente vacías.,Eliminación de filas con todos los valores faltantes.,0,Las filas completamente vacías no aportan información y distorsionan el análisis.
+Todas las variables de texto,Cadenas vacías o compuestas únicamente por espacios.,Conversión a NA.,0,Las cadenas vacías representan ausencia de información.
+Todas las variables de texto,Placeholders de valores faltantes.,Conversión a NA.,52,Los placeholders representan explícitamente ausencia de información.
+"codigo_establecimiento, codigo_distrito, nombre_establecimiento, direccion, telefono, supervisor, director",Variables importadas con tipo object.,Conversión a string.,9706,El cambio de tipo se aplicó a todos los registros de las variables de texto.
+"departamento, municipio, nivel, sector, area, estado, modalidad, jornada, plan_educativo, direccion_departamental",Las variables categóricas fueron importadas con tipo object.,Conversión temporal del tipo de dato a string (la conversión a category se realizará al finalizar la limpieza).,10,Durante la limpieza los valores de estas variables aún pueden cambiar; por ello se mantienen como string hasta finalizar las transformaciones.
+Todas las variables de texto,Representaciones Unicode inconsistentes.,Normalización Unicode (NFKC).,17,Evita diferencias entre caracteres visualmente equivalentes.
+Todas las variables de texto,Caracteres invisibles y de control.,Eliminación de caracteres Unicode de las categorías Cc y Cf.,17,"Evita errores en búsquedas, comparaciones y agrupaciones."
