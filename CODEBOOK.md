@@ -4,14 +4,14 @@
 
 | | |
 |---|---|
-| **Fuente de los datos** | Sistema de Búsqueda de Establecimientos Educativos, MINEDUC Guatemala — http://www.mineduc.gob.gt/BUSCAESTABLECIMIENTO_GE/ |
-| **Fecha de extracción** | 2026-07-18 |
-| **Versión del conjunto limpio** | 1.0 |
-| **Archivo** | `data/clean/establecimientos_diversificado_limpio.csv` |
-| **Registros** | 9,706 |
-| **Variables** | 26 (17 originales + 9 derivadas) |
-| **Cobertura** | los 22 departamentos del país, nivel escolar DIVERSIFICADO |
-| **Codificación** | UTF-8 con BOM (utf-8-sig) |
+| __Fuente de los datos__ | Sistema de Búsqueda de Establecimientos Educativos, MINEDUC Guatemala — http://www.mineduc.gob.gt/BUSCAESTABLECIMIENTO_GE/ |
+| __Fecha de extracción__ | 2026-07-18 |
+| __Versión del conjunto limpio__ | 1.0 |
+| __Archivo__ | `data/clean/establecimientos_diversificado_limpio.csv` |
+| __Registros__ | 9,706 |
+| __Variables__ | 17 originales 9 variables temporales |
+| __Cobertura__ | los 22 departamentos del país, nivel escolar DIVERSIFICADO |
+| __Codificación__ | UTF-8 con BOM (utf-8-sig) |
 
 ---
 
@@ -33,7 +33,7 @@
 - **Dominio permitido:** Formato NN-NNN o NN-NN-NNNN (coexisten dos convenciones en la fuente).
 - **Valores posibles:** 1590 valores distintos (ej.: `05-033`, `01-411`, `05-007`, ...)
 - **Valores faltantes:** 317 (3.27%)
-- **Tratamiento aplicado durante la limpieza:** Los códigos truncados se pasaron a NA; el formato se documenta en codigo_distrito_formato.
+- __Tratamiento aplicado durante la limpieza:__ Los códigos truncados se pasaron a NA; el formato se documenta en codigo_distrito_formato.
 
 ### `departamento`
 
@@ -53,7 +53,7 @@
 - **Valores faltantes:** 0 (0.00%)
 - **Tratamiento aplicado durante la limpieza:** Normalizado a mayúsculas; variantes de escritura unificadas por similitud dentro de cada departamento.
 
-### `departamento_municipio`  *(variable derivada)*
+### `departamento_municipio`  _(variable derivada)_
 
 - **Descripción:** Llave geográfica 'DEPARTAMENTO / MUNICIPIO'.
 - **Tipo de dato:** `string`
@@ -98,7 +98,7 @@
 - **Valores faltantes:** 745 (7.68%)
 - **Tratamiento aplicado durante la limpieza:** Extraído de la celda original; los valores que no son de 8 dígitos quedaron en NA.
 
-### `telefono_2`  *(variable derivada)*
+### `telefono_2`  _(variable derivada)_
 
 - **Descripción:** Segundo número telefónico, cuando la celda original traía más de uno.
 - **Tipo de dato:** `string`
@@ -177,7 +177,7 @@
 - **Dominio permitido:** Categorías observadas en la fuente.
 - **Valores posibles:** `DOBLE`, `INTERMEDIA`, `MATUTINA`, `NOCTURNA`, `SIN JORNADA`, `VESPERTINA`
 - **Valores faltantes:** 0 (0.00%)
-- **Tratamiento aplicado durante la limpieza:** Normalización de texto; cruzada con plan_educativo para validar categorías raras.
+- __Tratamiento aplicado durante la limpieza:__ Normalización de texto; cruzada con plan_educativo para validar categorías raras.
 
 ### `plan_educativo`
 
@@ -188,82 +188,19 @@
 - **Valores faltantes:** 0 (0.00%)
 - **Tratamiento aplicado durante la limpieza:** Normalización de texto.
 
-### `codigo_establecimiento_valido`  *(variable derivada)*
-
-- **Descripción:** Indica si el código cumple el formato NN-NN-NNNN-NN.
-- **Tipo de dato:** `boolean`
-- **Dominio permitido:** True / False.
-- **Valores posibles:** `True`
-- **Valores faltantes:** 0 (0.00%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: control de integridad de la llave primaria.
-
-### `codigo_distrito_formato`  *(variable derivada)*
-
-- **Descripción:** Convención de formato usada por codigo_distrito.
-- **Tipo de dato:** `category`
-- **Dominio permitido:** 'NN-NNN', 'NN-NN-NNNN' o NA.
-- **Valores posibles:** `NN-NN-NNNN`, `NN-NNN`
-- **Valores faltantes:** 317 (3.27%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: documenta el formato sin alterar el valor original.
-
-### `telefono_valido`  *(variable derivada)*
-
-- **Descripción:** Indica si el registro tiene al menos un teléfono de 8 dígitos.
-- **Tipo de dato:** `bool`
-- **Dominio permitido:** True / False.
-- **Valores posibles:** `False`, `True`
-- **Valores faltantes:** 0 (0.00%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: permite filtrar registros contactables.
-
-### `telefono_multiple`  *(variable derivada)*
-
-- **Descripción:** Indica si la celda original contenía más de un número.
-- **Tipo de dato:** `bool`
-- **Dominio permitido:** True / False.
-- **Valores posibles:** `False`, `True`
-- **Valores faltantes:** 0 (0.00%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: trazabilidad de la desagregación del campo.
-
-### `posible_duplicado`  *(variable derivada)*
-
-- **Descripción:** Indica si el registro pertenece a un grupo de similitud nombre+dirección.
-- **Tipo de dato:** `bool`
-- **Dominio permitido:** True / False.
-- **Valores posibles:** `False`, `True`
-- **Valores faltantes:** 0 (0.00%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada (RapidFuzz token_sort_ratio dentro de cada departamento-municipio). No se eliminó ningún registro.
-
-### `grupo_posible_duplicado`  *(variable derivada)*
-
-- **Descripción:** Identificador del grupo de posibles duplicados.
-- **Tipo de dato:** `Int64`
-- **Dominio permitido:** Entero positivo o NA.
-- **Valores posibles:** 1756 valores distintos (ej.: `607`, `610`, `1571`, ...)
-- **Valores faltantes:** 4,705 (48.48%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: permite inspeccionar juntos los registros de un grupo.
-
-### `tipo_posible_duplicado`  *(variable derivada)*
-
-- **Descripción:** Clasificación del grupo de posibles duplicados.
-- **Tipo de dato:** `category`
-- **Dominio permitido:** 'misma_sede_oferta_distinta', 'posible_duplicado_real' o NA.
-- **Valores posibles:** `misma_sede_oferta_distinta`, `posible_duplicado_real`
-- **Valores faltantes:** 4,705 (48.48%)
-- **Tratamiento aplicado durante la limpieza:** Variable derivada: distingue la granularidad legítima de la fuente de un duplicado real.
-
 ---
 
 ## Notas de uso
 
-1. **Duplicados parciales:** ningún registro marcado como `posible_duplicado` fue eliminado.
+1. __Duplicados parciales:__ ningún registro marcado como `posible_duplicado` fue eliminado.
    Para un análisis conservador, filtrar `tipo_posible_duplicado != 'posible_duplicado_real'`.
-   Los marcados como `misma_sede_oferta_distinta` **no son errores**: son el mismo
+   Los marcados como `misma_sede_oferta_distinta` __no son errores__: son el mismo
    establecimiento con más de una jornada, plan o sector.
-2. **Municipios homónimos:** para agrupar geográficamente, usar `departamento_municipio` en
+2. __Municipios homónimos:__ para agrupar geográficamente, usar `departamento_municipio` en
    lugar de `municipio` solo.
 3. **Faltantes:** no se imputó ningún valor. Un `NA` significa que el dato no estaba en la
    fuente o que era inválido; nunca un valor inventado.
-4. **Teléfonos:** solo se conservan números de 8 dígitos. Si `telefono_valido` es `False`, la
+4. __Teléfonos:__ solo se conservan números de 8 dígitos. Si `telefono_valido` es `False`, la
    celda original existía pero no contenía un número válido.
 
 ## Reproducibilidad
